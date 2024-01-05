@@ -1,0 +1,36 @@
+{
+  "name": "bingusco",
+  "version": "1.0.0",
+  "description": "BingusCO",
+  "main": "index.js",
+  "scripts": {
+    "start": "forever index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "engines": {
+    "node": "16.x"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.18.7",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "image-convert": "^0.1.33",
+    "moment": "^2.30.1",
+    "nexe": "^4.0.0-rc.2",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.8",
+    "sharp": "^0.33.1",
+    "socket.io": "^4.7.3",
+    "web-push": "^3.6.6",
+    "is-png": "^3.0.1",
+    "body-parser": "^1.20.2",
+    "forever": "^4.0.3"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.6.1",
+    "livereload": "^0.9.3",
+    "nodemon": "^3.0.1"
+  }
+}
