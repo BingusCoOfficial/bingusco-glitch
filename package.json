@@ -27,7 +27,6 @@
     "is-png": "^3.0.1",
     "body-parser": "^1.20.2",
     "forever": "^4.0.3",
-    "dependencies": {
     "@img/sharp-darwin-arm64": "0.33.1",
     "@img/sharp-darwin-x64": "0.33.1",
     "@img/sharp-libvips-darwin-arm64": "1.0.0",
