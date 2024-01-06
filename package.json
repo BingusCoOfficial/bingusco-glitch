@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "forever index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,18 +12,15 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
+    "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "express-subdomain": "^1.0.5",
-    "moment": "^2.29.4",
+    "forever": "^4.0.3",
     "node-fetch": "^3.2.6",
-    "nodemailer": "^6.9.6",
-    "socket.io": "^4.7.2"
-  },
-  "devDependencies": {
-    "connect-livereload": "^0.6.1",
-    "eslint": "^8.51.0",
-    "livereload": "^0.9.3",
-    "nodemon": "^3.0.1"
+    "nodemailer": "^6.9.8",
+    "sharp": "^0.33.1",
+    "socket.io": "^4.7.3",
+    "uuid": "^9.0.1",
+    "web-push": "^3.6.6"
   }
 }
