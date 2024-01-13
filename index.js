@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
@@ -513,6 +513,6 @@ io.on("connection", (socket) => {
     })
 });
 
-httpServer.listen(port, () => {
+httpServer.listen(port, "0.0.0.0", () => {
     console.log(`Server started on ${port}`);
 });
