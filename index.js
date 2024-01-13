@@ -1,4 +1,5 @@
 const express = require("express"); 
+const axios = require("axios")
 const sharp = require('sharp');
 const fs = require("fs");
 const { createServer } = require("http");
@@ -110,6 +111,12 @@ app.get('/admindash', function(req,res){
 app.get("/bingusco/content/index/html/images/secret/secretimages/runner.exe", function (req, res) {
     res.sendFile(path.join(__dirname, "image.png"));
 })
+
+app.get("/status", function (req, res) => {   
+    const response = await axios.get("https://bingusco.xyz");
+    const status = response.status;
+    res.json({"status": status});
+}
 
 app.use((req, res, next) => {
     res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
