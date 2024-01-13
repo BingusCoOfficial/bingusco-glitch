@@ -116,7 +116,7 @@ app.get("/status", async function (req, res) {
     const response = await axios.get("https://bingusco.xyz");
     const status = response.status;
     res.json({"status": status});
-}
+})
 
 app.use((req, res, next) => {
     res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
