@@ -112,7 +112,7 @@ app.get("/bingusco/content/index/html/images/secret/secretimages/runner.exe", fu
     res.sendFile(path.join(__dirname, "image.png"));
 })
 
-app.get("/status", function (req, res) {   
+app.get("/status", async function (req, res) {   
     const response = await axios.get("https://bingusco.xyz");
     const status = response.status;
     res.json({"status": status});
