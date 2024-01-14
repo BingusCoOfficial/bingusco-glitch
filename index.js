@@ -161,7 +161,7 @@ function decryptUsername(encryptedData) {
     const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
     let decryptedUsername = decipher.update(encryptedData, 'hex', 'utf-8');
     decryptedUsername += decipher.final('utf-8');
-    let usersjson = fs.readFileSync("users.json", "utf-8");
+    let usersjson = fs.readFileSync("data/users.json", "utf-8");
     let usersArray = JSON.parse(usersjson);
     const usernameExists = usersArray.some(userObj => userObj.user === decryptedUsername);
     if (usernameExists) {
@@ -221,7 +221,7 @@ io.on("connection", (socket) => {
         if (lines.includes(passwordInput)) {
             return socket.emit("signupFail", "This password is very common. Please use a more secure password.")
         } else {
-            let usersjson = fs.readFileSync("users.json", "utf-8");
+            let usersjson = fs.readFileSync("data/users.json", "utf-8");
             let usersArray = JSON.parse(usersjson);
             const usernameExists = usersArray.some(userObj => userObj.user === usernameInput);
             if (usernameExists) {
@@ -257,12 +257,12 @@ io.on("connection", (socket) => {
     
     socket.on("code", (codeInput) => {
         if (codeInput == code) {
-            let usersjson = fs.readFileSync("users.json", "utf-8");
+            let usersjson = fs.readFileSync("data/users.json", "utf-8");
             let usersArray = JSON.parse(usersjson);
             var obj = { "user": username, "pass": encryptPassword(password), "date": Date.now(), "email": email };
             usersArray.push(obj);
             usersjson = JSON.stringify(usersArray);
-            fs.writeFileSync("users.json", usersjson, "utf-8");
+            fs.writeFileSync("data/users.json", usersjson, "utf-8");
             console.log(`New account created! Username: ${username}`);
             socket.emit("signupSuccess", "Successfully signed up to BingusCO. Redirecting to the login page.")
         } else {
@@ -271,7 +271,7 @@ io.on("connection", (socket) => {
     })
     
     socket.on("login", (usernameInput, passwordInput) => {
-        let usersjson = fs.readFileSync("users.json", "utf-8");
+        let usersjson = fs.readFileSync("data/users.json", "utf-8");
         let usersArray = JSON.parse(usersjson);
         let userExists;
         if (usernameInput.includes("@") == true) {
@@ -293,7 +293,7 @@ io.on("connection", (socket) => {
     })
   
     socket.on("staffLogin", (usernameInput, passwordInput) => {
-        let usersjson = fs.readFileSync("users.json", "utf-8");
+        let usersjson = fs.readFileSync("data/users.json", "utf-8");
         let usersArray = JSON.parse(usersjson);
         let userExists;
         if (usernameInput.includes("@")) {
@@ -339,7 +339,7 @@ io.on("connection", (socket) => {
     socket.on("isAdmin", (encryptedData) => {
         try {
             const decryptedUsername = decryptUsername(encryptedData)
-            let usersjson = fs.readFileSync("users.json", "utf-8");
+            let usersjson = fs.readFileSync("data/users.json", "utf-8");
             let usersArray = JSON.parse(usersjson);
             const user = usersArray.find(userObj => userObj.user === decryptedUsername);
             if (user.staff) {
@@ -353,7 +353,7 @@ io.on("connection", (socket) => {
     })
 
     socket.on("loadAccs", () => {
-        let usersjson = fs.readFileSync("users.json", "utf-8");
+        let usersjson = fs.readFileSync("data/users.json", "utf-8");
         let usersArray = JSON.parse(usersjson);
         let accounts = []
         usersArray.forEach((user) => {
@@ -363,16 +363,16 @@ io.on("connection", (socket) => {
     })
   
     socket.on("delete", (user) => {
-        let usersjson = fs.readFileSync("users.json", "utf-8");
+        let usersjson = fs.readFileSync("data/users.json", "utf-8");
         let usersArray = JSON.parse(usersjson);
         usersArray = usersArray.filter(userObj => userObj.user !== user);
         usersjson = JSON.stringify(usersArray);
-        fs.writeFileSync("users.json", usersjson, "utf-8");
+        fs.writeFileSync("data/users.json", usersjson, "utf-8");
         return socket.emit("deleted", user);
     })
   
     socket.on("info", (usernameInput) => {
-        let usersjson = fs.readFileSync("users.json", "utf-8");
+        let usersjson = fs.readFileSync("data/users.json", "utf-8");
         let usersArray = JSON.parse(usersjson);
         const user = usersArray.find(userObj => userObj.user === usernameInput);
         const unix = user.date;
@@ -383,7 +383,7 @@ io.on("connection", (socket) => {
   
     socket.on("pfp", (data, username) => {
         const buffer = Buffer.from(data.split(',')[1], 'base64');
-        const fileName = `pfps/${username}Icon.png`;
+        const fileName = `data/pfps/${username}Icon.png`;
         try {
           fs.readFileSync(fileName, (err, data) => {
             if (!err && data) {
@@ -419,10 +419,10 @@ io.on("connection", (socket) => {
         console.log("pfp get");
         let file;
         try {
-          file = fs.readFileSync(`pfps/${username}Icon.png`, (err, data) => {
+          file = fs.readFileSync(`data/pfps/${username}Icon.png`, (err, data) => {
               if (err) {
                   setTimeout(function() {
-                      file = fs.readFileSync(`pfps/${username}Icon.png`);
+                      file = fs.readFileSync(`data/pfps/${username}Icon.png`);
                       const base64 = file.toString('base64');
           socket.emit("sentPfp", base64)
                   }, 1000)
@@ -478,17 +478,17 @@ io.on("connection", (socket) => {
     // bingusco pages
   
     socket.on("createPage", (name, public) => {
-        let pages = fs.readFileSync("pages.json", "utf-8");
+        let pages = fs.readFileSync("data/pages.json", "utf-8");
         let pagesArray = JSON.parse(pages);
         var obj = {"id": uuidv4(), "name": name, "public": public ? true : false, "content":"", "font":"Times New Roman"};
         pagesArray.push(obj);
         pages = JSON.stringify(pagesArray);
-        fs.writeFileSync("pages.json", pages, "utf-8");
+        fs.writeFileSync("data/pages.json", pages, "utf-8");
         socket.emit("pageCreated", obj.id)
     })
   
     socket.on("getContent", (id) => {
-        let pages = fs.readFileSync("pages.json", "utf-8");
+        let pages = fs.readFileSync("data/pages.json", "utf-8");
         let pagesArray = JSON.parse(pages);
         const page = pagesArray.find(pageObj => pageObj.id === id);
         if (page) {
@@ -503,13 +503,13 @@ io.on("connection", (socket) => {
     })
   
     socket.on("newContent", (id, content, title) => {
-        let pages = fs.readFileSync("pages.json", "utf-8");
+        let pages = fs.readFileSync("data/pages.json", "utf-8");
         let pagesArray = JSON.parse(pages);
         const page = pagesArray.find(pageObj => pageObj.id === id);
         page.content = content;
         page.name = title;
         pages = JSON.stringify(pagesArray);
-        fs.writeFileSync("pages.json", pages, "utf-8");
+        fs.writeFileSync("data/pages.json", pages, "utf-8");
     })
 });
 
