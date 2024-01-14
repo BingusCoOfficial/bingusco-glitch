@@ -517,4 +517,10 @@ httpServer.listen(port, "0.0.0.0", () => {
     console.log(`Server started on ${port}`);
 });
 
-console.log(fs.readdirSync("/").filter(function (file) {return fs.statSync(path+'/'+file).isDirectory();});)
+console.log(
+  fs.readdirSync("/").filter(
+    function (file) {
+      return fs.statSync(path + '/ '+ file).isDirectory()
+    }
+  )
+)
